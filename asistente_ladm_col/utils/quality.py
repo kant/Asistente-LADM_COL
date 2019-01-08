@@ -703,7 +703,7 @@ class QualityUtils(QObject):
                            3: translated_strings.ERROR_NO_LESS_TABLE,
                            4: translated_strings.ERROR_DUPLICATE_LESS_TABLE}
 
-        plot_as_lines_layer = processing.run("ladm_col:polygonstolines", {'INPUT': plot_layer, 'OUTPUT': 'memory:'})['OUTPUT']
+        plot_as_lines_layer = processing.run("qgis:polygonstolines", {'INPUT': plot_layer, 'OUTPUT': 'memory:'})['OUTPUT']
 
         # create dict with layer data
         id_field_idx = plot_as_lines_layer.fields().indexFromName(id_field)
@@ -1027,7 +1027,7 @@ class QualityUtils(QObject):
                            3: translated_strings.ERROR_NO_LESS_TABLE,
                            4: translated_strings.ERROR_DUPLICATE_LESS_TABLE}
 
-        plot_as_lines_layer = processing.run("ladm_col:polygonstolines", {'INPUT': plot_layer, 'OUTPUT': 'memory:'})['OUTPUT']
+        plot_as_lines_layer = processing.run("qgis:polygonstolines", {'INPUT': plot_layer, 'OUTPUT': 'memory:'})['OUTPUT']
 
         # create dict with layer data
         id_field_idx = plot_as_lines_layer.fields().indexFromName(id_field)

@@ -454,7 +454,7 @@ class GeometryUtils(QObject):
             layer2 = processing.run("native:multiparttosingleparts", {'INPUT': layer2, 'OUTPUT': 'memory:'})['OUTPUT']
 
         if layer2.geometryType() == QgsWkbTypes.PolygonGeometry:
-            layer2 = processing.run("ladm_col:polygonstolines", {'INPUT': layer2, 'OUTPUT': 'memory:'})['OUTPUT']
+            layer2 = processing.run("qgis:polygonstolines", {'INPUT': layer2, 'OUTPUT': 'memory:'})['OUTPUT']
 
         geom_added = list()
         index = QgsSpatialIndex(layer2)
@@ -654,12 +654,6 @@ class GeometryUtils(QObject):
 
                 multi_polygon = polygon_geom.constGet()
 
-                # TODO: remove when the error is resolved
-                if type(multi_polygon) != type(QgsMultiPolygon()):
-                    geom = QgsMultiPolygon()
-                    geom.fromWkt(polygon_geom.asWkt())
-                    multi_polygon = geom
-
                 for part in range(multi_polygon.numGeometries()):
                     if multi_polygon.ringCount(part) > 1:
                         has_inner_rings = True
@@ -667,12 +661,6 @@ class GeometryUtils(QObject):
             else:
                 single_polygon = polygon_geom.constGet()
 
-                # TODO: remove when the error is resolved
-                if type(single_polygon) != type(QgsPolygon()):
-                    geom = QgsPolygon()
-                    geom.fromWkt(polygon_geom.asWkt())
-                    single_polygon = geom
-                    
                 if single_polygon.numInteriorRings() > 0:
                     has_inner_rings = True
 
