@@ -41,7 +41,7 @@ from qgis.core import (QgsWkbTypes,
                        Qgis,
                        QgsNetworkContentFetcherTask,
                        QgsApplication)
-from ..utils.qgis_model_baker_utils import get_java_path_dir_from_qgis_model_baker
+from ..utils.qgis_model_baker_utils import (get_java_path_dir_from_qgis_model_baker, get_java_path_from_qgis_model_baker)
 
 from ..config.general_config import (TEST_SERVER,
                                      PLUGIN_NAME,
@@ -284,7 +284,19 @@ class ReportGenerator():
                 functools.partial(self.stdout_ready, proc=proc))
 
             current_report_path = os.path.join(save_into_folder, 'anexo_17_{}.pdf'.format(plot_id))
-            proc.start(script_path, ['-config', yaml_config_path, '-spec', json_file, '-output', current_report_path])
+
+            if get_java_path_dir_from_qgis_model_baker():
+                # Send custom java path set by the user
+                proc.start(script_path,
+                           ['-config', yaml_config_path,
+                            '-spec', json_file,
+                            '-output', current_report_path,
+                            '-custom_java_path', get_java_path_from_qgis_model_baker()])
+            else:
+                proc.start(script_path,
+                           ['-config', yaml_config_path,
+                            '-spec', json_file,
+                            '-output', current_report_path])
 
             if not proc.waitForStarted():
                 # Grant execution permissions
